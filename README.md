@@ -1,7 +1,7 @@
 ### Checkout placeholder
 #### Facts
 * Converts all checkout address field labels to the HTML placeholder syntax.
-* Via plugin on Magento\Checkout\Block\Checkout\LayoutProcessor (afterProcess). 
+* Via plugin on \Magento\Checkout\Block\Checkout\AttributeMerger::merge (afterMerge). 
 * Template: https://devdocs.magento.com/guides/v2.4/howdoi/checkout/checkout_custom_checkbox.html
 * "Wer meint, »etwas« oder »jemand« sei nicht an seinem richtigen Platz, übersieht zumeist die Akausalität im Motiv des Platzhalters."
 

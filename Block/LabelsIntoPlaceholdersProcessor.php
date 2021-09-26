@@ -7,40 +7,50 @@ declare(strict_types=1);
 
 namespace Checkout\Placeholder\Block;
 
-use Magento\Checkout\Block\Checkout\LayoutProcessor;
+use Magento\Checkout\Block\Checkout\AttributeMerger;
+use Magento\Framework\Phrase;
 
 class LabelsIntoPlaceholdersProcessor
 {
     /**
-     * @param LayoutProcessor $processor
-     * @param array $jsLayout
+     * @param AttributeMerger $subject
+     * @param array $result
      * @return array
+     * @see Magento\Checkout\Block\Checkout\AttributeMerger::merge
      */
-    public function afterProcess(LayoutProcessor $processor, $jsLayout)
+    public function afterMerge(AttributeMerger $subject, $result)
     {
-        $shippingFieldset = &$jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']
-        ['children']['shippingAddress']['children']['shipping-address-fieldset']['children'];
-        //$billingConfiguration = &$jsLayout['components']['checkout']['children']['steps']['children']['billing-step']
-        //['children']['payment']['children']['payments-list']['children'];
-        
-        if (isset($shippingFieldset)) {
-          $this->processAddress($shippingFieldset);
+        foreach ($result as $key => $field) {
+            if('street' == $key) {
+                $streetFields = $field['children'];
+                foreach($streetFields as $streetKey => $streetField) {
+                    $streetField = $this->processField($streetField, $field['label'] ?? null);
+                    $streetFields[$streetKey] = $streetField;
+                }
+                $result[$key] = $this->resetLabel($field); // clear parent node label
+                $result[$key]['children'] = $streetFields;
+            }
+            else {
+               $addressField = $this->processField($field);
+               $result[$key] = $addressField;
+            }
         }
-
-        return $jsLayout;
+        return $result;
     }
-
-    /**
-     * @param $addressFields - Address fields.
-     * @return array
-     */
-    private function processAddress($addressFields)
-    {
-        foreach ($addressFields as $key => $field) {
-            $field['placeholder']['label'] = $field['label'];
-            $field['label'] = '';
-            $addressFields[$key] = $field;
+    
+    public function processField($field, $parentLabel = null) {
+        $labelObject = $parentLabel ?? $field['label'] ?? false;
+        if($labelObject) {
+            $labelText = $labelObject->getText();
+            $field['placeholder'] = __($labelText);
+            $field = $this->resetLabel($field);
         }
-        return $addressFields;
+        return $field;
+    }
+    
+    public function resetLabel($field)
+    {
+        $field['label'] = new Phrase('');
+        return $field;
     }
 }

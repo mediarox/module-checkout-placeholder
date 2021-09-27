@@ -25,9 +25,5 @@ bin/magento setup:upgrade
 
 #### Visual - before & after
 
-![address_before](https://user-images.githubusercontent.com/32567473/134806142-3cc1e49b-2d29-49f6-afef-217fe09a9bef.png)
-![address_after](https://user-images.githubusercontent.com/32567473/134806182-049a500f-33fb-4c9c-91db-1fcb34764b3f.png)
-
-#### ToDo's
-
-* Required mark at fields
+![without_extension](https://user-images.githubusercontent.com/32567473/134947126-6cfa3b11-a92b-45a0-90cf-63e7ba042722.png)
+![with_extension](https://user-images.githubusercontent.com/32567473/134947141-b6c30ddb-ea68-43cb-a7c9-95df42488056.png)

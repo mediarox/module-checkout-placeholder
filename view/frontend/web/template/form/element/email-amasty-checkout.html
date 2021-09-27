@@ -1,0 +1,108 @@
+<!-- ko ifnot: isCustomerLoggedIn() -->
+
+<!-- ko fastForEach: getRegion('before-login-form') -->
+<!-- ko template: getTemplate() --><!-- /ko -->
+<!-- /ko -->
+<form class="form form-login amcheckout-form-login"
+      data-role="email-with-possible-login"
+      data-bind="submit:login"
+      method="post">
+    <fieldset id="customer-email-fieldset" class="fieldset" data-bind="blockLoader: isLoading">
+        <div class="field required">
+            <label class="label" for="customer-email">
+                <span data-bind="i18n: 'Email Address'"></span>
+            </label>
+            <div class="amcheckout-email control _with-tooltip">
+                <div class="amcheckout-wrapper">
+                    <input class="input-text placeholder-replaced-amasty"
+                           autocomplete="off"
+                           type="email"
+                           data-bind="
+                            textInput: email,
+                            hasFocus: emailFocused,
+                            attr: {
+                                placeholder: $t('Email Address')
+                            }"
+                           name="username"
+                           data-validate="{required:true, 'validate-email':true}"
+                           id="customer-email" />
+                </div>
+
+                <!-- ko template: 'ui/form/element/helper/tooltip' --><!-- /ko -->
+                <span class="note" data-bind="fadeVisible: isPasswordVisible() == false"><!-- ko i18n: 'You can create an account after checkout.'--><!-- /ko --></span>
+            </div>
+        </div>
+
+        <!--Hidden fields -->
+        <fieldset class="fieldset hidden-fields">
+            <div class="field amcheckout-password" data-bind="fadeVisible: isPasswordVisible, css: {required: isPassword}">
+                <label class="label" for="customer-password">
+                    <span data-bind="i18n: 'Password'"></span>
+                </label>
+                <div class="control">
+                    <input class="input-text"
+                           data-bind="
+                                event: {
+                                    input: isPasswordSet($element)
+                                },
+                                attr: {
+                                    placeholder: $t('optional'),
+                                    'data-validate':JSON.stringify({required:true,'validate-customer-password': validate()}),
+                                    'data-password-min-character-sets': getRequiredCharacterClassesNumber(),
+                                    'data-password-min-length': getMinimumPasswordLength()
+                                }"
+                           type="password"
+                           name="password"
+                           id="customer-password"
+                           autocomplete="off"/>
+                    <span class="note" data-bind="fadeVisible: isPasswordVisible() == true && isCreateAccountAction() == false">
+                        <!-- ko i18n: 'You already have an account with us. Sign in or continue as guest.'--><!-- /ko -->
+                    </span>
+                    <span class="note" data-bind="fadeVisible: isPasswordVisible() == true && isCreateAccountAction() == true">
+                        <!-- ko i18n: 'To register an account simply add a password.'--><!-- /ko -->
+                    </span>
+                </div>
+            </div>
+            <div class="field amcheckout-password -confirm" data-bind="fadeVisible: isPasswordVisible() == true && isCreateAccountAction() == true, css: {required: isPassword}">
+                <label class="label" for="password-confirmation">
+                    <span data-bind="i18n: 'Confirm Password'"></span>
+                </label>
+                <div class="control">
+                    <input class="input-text"
+                           data-bind="
+                                value: passwordConfirmation,
+                                attr: {
+                                    placeholder: isPassword() == true ? '' : $t('optional'),
+                                }"
+                           type="password"
+                           name="password-confirmation"
+                           id="password-confirmation"
+                           data-validate="{required:true, equalTo:'#customer-password'}"
+                           autocomplete="off"/>
+                    <span class="note"><!-- ko i18n: 'Please confirm your password.'--><!-- /ko --></span>
+                </div>
+            </div>
+            <!-- ko foreach: getRegion('additional-login-form-fields') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!-- /ko -->
+            <!-- ko if: isPasswordVisible() == true && isCreateAccountAction() == true -->
+            <!-- ko foreach: getRegion('additional-registration-form-fields') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!-- /ko -->
+            <!-- /ko -->
+            <div class="actions-toolbar"  data-bind="fadeVisible: isCreateAccountAction() == false && isPasswordVisible() == true">
+                <input name="context" type="hidden" value="checkout" />
+                <div class="primary">
+                    <button type="submit" class="action login primary" data-action="checkout-method-login"><span data-bind="i18n: 'Login'"></span></button>
+                </div>
+                <div class="secondary">
+                    <a class="action remind" data-bind="attr: { href: forgotPasswordUrl }">
+                        <span data-bind="i18n: 'Forgot Your Password?'"></span>
+                    </a>
+                </div>
+            </div>
+        </fieldset>
+        <!--Hidden fields -->
+    </fieldset>
+</form>
+<!-- /ko -->

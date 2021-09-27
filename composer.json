@@ -2,7 +2,7 @@
   "name": "mediarox/module-checkout-placeholder",
   "description": "Converts all checkout address field labels to the HTML placeholder syntax.",
   "type": "magento2-module",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": [
     "MIT"
   ],

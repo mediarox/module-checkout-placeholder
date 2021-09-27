@@ -1,9 +1,18 @@
 ### Checkout placeholder
 #### Facts
-* Converts all checkout address field labels to the HTML placeholder syntax.
-* Via plugin on \Magento\Checkout\Block\Checkout\AttributeMerger::merge (afterMerge). 
-* Template: https://devdocs.magento.com/guides/v2.4/howdoi/checkout/checkout_custom_checkbox.html
+* Enrich all checkout address fields HTML placeholders (transfer label).
+* Hide all checkout address labels. (less)
+* Hide checkout email label. (less)
+* "Add placholder" plugins
+    * Magento\Checkout\Block\Checkout\LayoutProcessor::afterProcess (address fields)
+    * Magento\Checkout\Block\Checkout\AttributeMerger::afterMerge (email field)
+* @see https://devdocs.magento.com/guides/v2.4/howdoi/checkout/checkout_custom_checkbox.html
 * "Wer meint, »etwas« oder »jemand« sei nicht an seinem richtigen Platz, übersieht zumeist die Akausalität im Motiv des Platzhalters."
+
+#### Compatibility
+
+* amzn/amazon-pay-magento-2-module:"5.7.1" (knockout email template override)
+* amasty/module-single-step-checkout:"3.1.2" (knockout email template override)
 
 #### Installation
 ```bash
@@ -18,4 +27,4 @@ bin/magento setup:upgrade
 
 #### ToDo's
 
-* Login form > email field
+* Required mark at fields

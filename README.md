@@ -1,6 +1,6 @@
 ### Checkout placeholder
 #### Facts
-* Enrich all checkout address fields HTML placeholders (transfer label).
+* Enrich all checkout address fields with HTML placeholders (transfer labels).
 * Hide all checkout address labels. (less)
 * Hide checkout email label. (less)
 * "Add placeholder" plugins

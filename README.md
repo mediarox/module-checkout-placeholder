@@ -1,7 +1,7 @@
 ### Checkout placeholder
 #### Facts
 * Enrich all checkout address fields with HTML placeholders (copy labels) incl. "required-entry" mark ("*").
-* Enrich checkout email field with HTML placeholder incl. "required-entry" mark ("*")
+* Enrich checkout email field with HTML placeholder incl. "required-entry" mark ("*").
 * Hide all checkout address labels. (less)
 * Hide checkout email label. (less)
 * "Add placeholder" methods

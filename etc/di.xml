@@ -10,7 +10,4 @@
     <type name="Magento\Checkout\Block\Checkout\AttributeMerger">
         <plugin name="Checkout_Placeholder::AttributeMerger" type="Checkout\Placeholder\Plugin\Checkout\AttributeMerger"/>
     </type>
-    <type name="\Magento\Checkout\Block\Checkout\LayoutProcessor">
-        <plugin name="Checkout_Placeholder::LayoutProcessor" type="Checkout\Placeholder\Plugin\Checkout\LayoutProcessor" />
-    </type>
 </config>

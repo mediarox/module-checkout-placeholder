@@ -34,6 +34,7 @@ class Data
     {
         $currentField = $fieldArray[$fieldKey];
         $this->copyLabelIntoPlaceholder($currentField, $parentField);
+        $this->addRequiredEntryMark($currentField);
         $fieldArray[$fieldKey] = $currentField;
     }
     
@@ -46,5 +47,13 @@ class Data
         if($labelAvailable && $labelHasExpectedInstance) {
             $field['placeholder'] = __($label->getText());
         }
+    }
+    
+    public function addRequiredEntryMark(array &$field) : void
+    {
+        $isRequiredEntry = $field['validation']['required-entry'] ?? false;
+        $isOptionalEntry = !$isRequiredEntry;
+        if($isOptionalEntry) return;
+        $field['placeholder'] .= ' *';
     }
 }

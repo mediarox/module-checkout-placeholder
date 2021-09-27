@@ -1,11 +1,14 @@
 ### Checkout placeholder
 #### Facts
-* Enrich all checkout address fields with HTML placeholders (transfer labels).
+* Enrich all checkout address fields with HTML placeholders (copy labels) incl. "required-entry" mark ("*").
+* Enrich checkout email field with HTML placeholder incl. "required-entry" mark ("*")
 * Hide all checkout address labels. (less)
 * Hide checkout email label. (less)
-* "Add placeholder" plugins
-    * Magento\Checkout\Block\Checkout\LayoutProcessor::afterProcess (address fields)
-    * Magento\Checkout\Block\Checkout\AttributeMerger::afterMerge (email field)
+* "Add placeholder" methods
+    * address fields
+      * plugin on Magento\Checkout\Block\Checkout\AttributeMerger::afterMerge
+    * email field
+      * knockout template override
 * @see https://devdocs.magento.com/guides/v2.4/howdoi/checkout/checkout_custom_checkbox.html
 * "Wer meint, »etwas« oder »jemand« sei nicht an seinem richtigen Platz, übersieht zumeist die Akausalität im Motiv des Platzhalters."
 

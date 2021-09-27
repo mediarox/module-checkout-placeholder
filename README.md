@@ -3,7 +3,7 @@
 * Enrich all checkout address fields HTML placeholders (transfer label).
 * Hide all checkout address labels. (less)
 * Hide checkout email label. (less)
-* "Add placholder" plugins
+* "Add placeholder" plugins
     * Magento\Checkout\Block\Checkout\LayoutProcessor::afterProcess (address fields)
     * Magento\Checkout\Block\Checkout\AttributeMerger::afterMerge (email field)
 * @see https://devdocs.magento.com/guides/v2.4/howdoi/checkout/checkout_custom_checkbox.html

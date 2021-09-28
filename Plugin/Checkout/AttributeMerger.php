@@ -13,6 +13,10 @@ use Checkout\Placeholder\Helper\Data as PlaceholderHelper;
 class AttributeMerger
 {
     /**
+     * Base way to process fields. (if amasty/module-single-step-checkout is not installed)
+     * If amasty is installed, the RequiredFlagsProcessor is needed, to process/override fields correctly. 
+     * It's nessesary, because of amasty's attribute configuration overlay (database).
+     * 
      * @param Subject $subject
      * @param array $result
      * @return array

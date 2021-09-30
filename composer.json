@@ -2,12 +2,13 @@
   "name": "mediarox/module-checkout-placeholder",
   "description": "Show placeholders instead of labels at common checkout field's (incl. required entry mark).",
   "type": "magento2-module",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "license": [
     "MIT"
   ],
   "require": {
     "php": "~7.4",
+    "magento/framework": "103.0.*",
     "magento/module-checkout": "100.4.*"
   },
   "autoload": {

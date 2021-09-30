@@ -10,7 +10,21 @@
     <type name="Magento\Checkout\Block\Onepage">
         <arguments>
             <argument name="layoutProcessors" xsi:type="array">
-                <item name="placeholderRequiredFlags" sortOrder="102" xsi:type="object">Checkout\Placeholder\Block\Onepage\RequiredFlagsProcessor</item>
+                <item name="placeholderProcessor" sortOrder="102" xsi:type="object">Checkout\Placeholder\Block\Onepage\PlaceholderProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Checkout\Placeholder\Block\Onepage\PlaceholderProcessor">
+        <arguments>
+            <argument name="processAddressList" xsi:type="array">
+                <item name="shippingAddress" xsi:type="array">
+                    <item name="searchKey" xsi:type="string">shipping-address-fieldset</item>
+                    <item name="fieldsPath" xsi:type="string">/children</item>
+                </item>
+                <item name="billingAddress" xsi:type="array">
+                    <item name="searchKey" xsi:type="string">billing-address-form</item>
+                    <item name="fieldsPath" xsi:type="string">/children/form-fields/children</item>
+                </item>
             </argument>
         </arguments>
     </type>

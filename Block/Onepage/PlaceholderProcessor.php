@@ -8,8 +8,8 @@ use Magento\Framework\Stdlib\ArrayManager;
 
 class PlaceholderProcessor implements LayoutProcessorInterface
 {
-    const ADDRESS_SEARCH_KEY = 'searchKey';
-    const ADDRESS_FIELDS_PATH = 'fieldsPath';
+    public const ADDRESS_SEARCH_KEY = 'searchKey';
+    public const ADDRESS_FIELDS_PATH = 'fieldsPath';
     
     protected array $processAddressList;
     protected ArrayManager $arrayManager;
@@ -34,7 +34,7 @@ class PlaceholderProcessor implements LayoutProcessorInterface
      */
     public function validateProcessAddressList(array $processAddressList): array 
     {
-        return array_filter($processAddressList, function ($address) {
+        return array_filter($processAddressList, static function ($address) {
             return array_key_exists(self::ADDRESS_SEARCH_KEY, $address);
         });
     }

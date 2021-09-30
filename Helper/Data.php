@@ -34,7 +34,6 @@ class Data
     {
         $currentField = $fieldArray[$fieldKey];
         $this->copyLabelIntoPlaceholder($currentField, $parentField);
-        $this->addRequiredEntryMark($currentField);
         $fieldArray[$fieldKey] = $currentField;
     }
     
@@ -46,6 +45,7 @@ class Data
         
         if($labelAvailable && $labelHasExpectedInstance) {
             $field['placeholder'] = __($label->getText());
+            $this->addRequiredEntryMark($field);
         }
     }
     

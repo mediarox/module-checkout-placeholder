@@ -6,8 +6,7 @@
 * Hide checkout email label. (less)
 * "Add placeholder" methods
     * address fields
-      * plugin on Magento\Checkout\Block\Checkout\AttributeMerger::afterMerge
-      * additional layoutProcessor to re-process fields for other layoutProcessor manipulations like amasty.
+      * layoutProcessor on Magento\Checkout\Block\Onepage
     * email field
       * knockout template override
 * @see https://devdocs.magento.com/guides/v2.4/howdoi/checkout/checkout_custom_checkbox.html

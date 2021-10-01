@@ -44,16 +44,14 @@ class Data
         $labelHasExpectedInstance = $label instanceof Phrase;
         
         if($labelAvailable && $labelHasExpectedInstance) {
-            $field['placeholder'] = __($label->getText());
-            $this->addRequiredEntryMark($field);
+            $labelText = (string) __($label->getText()); // get string instead of object "Phrase"
+            $field['placeholder'] = $labelText . $this->getRequiredEntryMark($field);
         }
     }
     
-    public function addRequiredEntryMark(array &$field) : void
+    public function getRequiredEntryMark(array &$field) : string
     {
         $isRequiredEntry = $field['validation']['required-entry'] ?? false;
-        $isOptionalEntry = !$isRequiredEntry;
-        if($isOptionalEntry) return;
-        $field['placeholder'] .= ' *';
+        return $isRequiredEntry ? ' *' : '';
     }
 }

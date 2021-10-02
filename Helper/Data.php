@@ -39,14 +39,13 @@ class Data
     
     public function copyLabelIntoPlaceholder(array &$field, $parentField = null) : void
     {
-        $label = $parentField['label'] ?? $field['label'] ?? null;
-        $labelAvailable = $label !== null;
-        $labelHasExpectedInstance = $label instanceof Phrase;
-        
-        if($labelAvailable && $labelHasExpectedInstance) {
-            $labelText = (string) __($label->getText()); // get string instead of object "Phrase"
-            $field['placeholder'] = $labelText . $this->getRequiredEntryMark($field);
+        $label = $parentField['label'] ?? $field['label'] ?? false;
+        if(!$label) {
+            return;
         }
+        $labelNeedTranslation = ($label instanceof Phrase);
+        $label = $labelNeedTranslation ? (string) __($label) : $label;
+        $field['placeholder'] = $label . $this->getRequiredEntryMark($field);
     }
     
     public function getRequiredEntryMark(array &$field) : string

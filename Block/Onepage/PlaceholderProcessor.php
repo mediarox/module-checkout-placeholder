@@ -57,12 +57,7 @@ class PlaceholderProcessor implements LayoutProcessorInterface
     public function findAddressFieldsPath(array $searchSettings, array $jsLayout): ?string
     {
         $addressPath = $this->arrayManager->findPath($searchSettings[self::ADDRESS_SEARCH_KEY], $jsLayout);
-        $addressPathNotFound = (null === $addressPath);
-        if($addressPathNotFound) {
-            return null;
-        }
-        $addressPath .= $searchSettings[self::ADDRESS_FIELDS_PATH] ?? '';
-        return $addressPath;
+        return $addressPath ? $addressPath . $searchSettings[self::ADDRESS_FIELDS_PATH] ?? '' : null;
     }
     
     public function processFields(string $fieldsPath, array &$jsLayout): void

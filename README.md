@@ -9,8 +9,6 @@
       * layoutProcessor on Magento\Checkout\Block\Onepage
     * email field
       * knockout template override
-* @see https://devdocs.magento.com/guides/v2.4/howdoi/checkout/checkout_custom_checkbox.html
-* "Wer meint, »etwas« oder »jemand« sei nicht an seinem richtigen Platz, übersieht zumeist die Akausalität im Motiv des Platzhalters."
 
 #### Compatibility
 

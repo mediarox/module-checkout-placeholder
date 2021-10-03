@@ -27,3 +27,9 @@ bin/magento setup:upgrade
 
 ![without_extension](https://user-images.githubusercontent.com/32567473/134947126-6cfa3b11-a92b-45a0-90cf-63e7ba042722.png)
 ![with_extension](https://user-images.githubusercontent.com/32567473/134947141-b6c30ddb-ea68-43cb-a7c9-95df42488056.png)
+
+#### ToDo's
+* handling different count of street lines
+    * 1 = parent field label
+    * \> 1 = current field label ?
+* required mark string as config

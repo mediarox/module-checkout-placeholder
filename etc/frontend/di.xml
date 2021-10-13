@@ -22,8 +22,8 @@
                     <item name="fieldsPath" xsi:type="string">/children</item>
                 </item>
                 <item name="billingAddress" xsi:type="array">
-                    <item name="searchKey" xsi:type="string">billing-address-form</item>
-                    <item name="fieldsPath" xsi:type="string">/children/form-fields/children</item>
+                    <item name="searchKey" xsi:type="string">form-fields</item>
+                    <item name="fieldsPath" xsi:type="string">/children</item>
                 </item>
             </argument>
         </arguments>

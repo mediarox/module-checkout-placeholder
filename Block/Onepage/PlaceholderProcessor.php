@@ -46,24 +46,21 @@ class PlaceholderProcessor implements LayoutProcessorInterface
     public function process($jsLayout)
     {
         foreach($this->processAddressList as $name => $searchSettings) {
-            $addressFieldsPath = $this->findAddressFieldsPath($searchSettings, $jsLayout);
-            if($addressFieldsPath) {
-                $this->processFields($addressFieldsPath, $jsLayout);
+            $addressPaths = $this->arrayManager->findPaths($searchSettings[self::ADDRESS_SEARCH_KEY], $jsLayout);
+            foreach($addressPaths as $addressPath) {
+                $fullAddressPath = $addressPath . $searchSettings[self::ADDRESS_FIELDS_PATH];
+                $addressFields = $this->arrayManager->get($fullAddressPath, $jsLayout);
+                if($addressFields) {
+                    $this->processFields($fullAddressPath, $addressFields, $jsLayout);
+                }
             }
         }
         return $jsLayout;
     }
     
-    public function findAddressFieldsPath(array $searchSettings, array $jsLayout): ?string
+    public function processFields(string $addressPath, array $fields, array &$jsLayout): void
     {
-        $addressPath = $this->arrayManager->findPath($searchSettings[self::ADDRESS_SEARCH_KEY], $jsLayout);
-        return $addressPath ? $addressPath . $searchSettings[self::ADDRESS_FIELDS_PATH] ?? '' : null;
-    }
-    
-    public function processFields(string $fieldsPath, array &$jsLayout): void
-    {
-        $addressFields = $this->arrayManager->get($fieldsPath, $jsLayout); 
-        $newAddressFields = $this->placeholderHelper->convertFieldLabelsIntoPlaceholders($addressFields);
-        $jsLayout = $this->arrayManager->merge($fieldsPath, $jsLayout, $newAddressFields);
+        $newAddressFields = $this->placeholderHelper->convertFieldLabelsIntoPlaceholders($fields);
+        $jsLayout = $this->arrayManager->merge($addressPath, $jsLayout, $newAddressFields);
     }
 }

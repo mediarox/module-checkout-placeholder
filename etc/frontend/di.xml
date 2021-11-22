@@ -16,7 +16,7 @@
     </type>
     <type name="Checkout\Placeholder\Block\Onepage\PlaceholderProcessor">
         <arguments>
-            <argument name="processAddressList" xsi:type="array">
+            <argument name="processList" xsi:type="array">
                 <item name="shippingAddress" xsi:type="array">
                     <item name="searchKey" xsi:type="string">shipping-address-fieldset</item>
                     <item name="fieldsPath" xsi:type="string">/children</item>
@@ -24,6 +24,10 @@
                 <item name="billingAddress" xsi:type="array">
                     <item name="searchKey" xsi:type="string">form-fields</item>
                     <item name="fieldsPath" xsi:type="string">/children</item>
+                </item>
+                <item name="summary" xsi:type="array">
+                    <item name="searchKey" xsi:type="string">summary</item>
+                    <item name="fieldsPath" xsi:type="string">/children/additional/children</item>
                 </item>
             </argument>
         </arguments>

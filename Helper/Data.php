@@ -11,13 +11,13 @@ use Magento\Framework\Phrase;
 
 class Data
 {
-    public function convertFieldLabelsIntoPlaceholders(array $fields) : array 
+    public function convertFieldLabelsIntoPlaceholders(array $fields): array
     {
         foreach ($fields as $key => $field) {
-            switch($key) {
+            switch ($key) {
                 case 'street':
                     $streetFields = $field['children'];
-                    foreach($streetFields as $streetKey => $streetField) {
+                    foreach ($streetFields as $streetKey => $streetField) {
                         $this->processField($streetFields, $streetKey, $field);
                     }
                     $fields[$key]['children'] = $streetFields;
@@ -29,26 +29,26 @@ class Data
         }
         return $fields;
     }
-    
-    public function processField(array &$fieldArray, $fieldKey, $parentField = null) : void
+
+    public function processField(array &$fieldArray, $fieldKey, $parentField = null): void
     {
         $currentField = $fieldArray[$fieldKey];
         $this->copyLabelIntoPlaceholder($currentField, $parentField);
         $fieldArray[$fieldKey] = $currentField;
     }
-    
-    public function copyLabelIntoPlaceholder(array &$field, $parentField = null) : void
+
+    public function copyLabelIntoPlaceholder(array &$field, $parentField = null): void
     {
-        $label = $parentField['label'] ?? $field['label'] ?? false;
-        if(!$label) {
+        $label = $field['label'] ?? $parentField['label'] ?? false;
+        if (!$label) {
             return;
         }
         $labelNeedTranslation = ($label instanceof Phrase);
-        $label = $labelNeedTranslation ? (string) __($label) : $label;
+        $label = $labelNeedTranslation ? (string)__($label) : $label;
         $field['placeholder'] = $label . $this->getRequiredEntryMark($field);
     }
-    
-    public function getRequiredEntryMark(array &$field) : string
+
+    public function getRequiredEntryMark(array &$field): string
     {
         $isRequiredEntry = $field['validation']['required-entry'] ?? false;
         return $isRequiredEntry ? ' *' : '';

@@ -5,6 +5,7 @@
 
 @checkout__placeholder__hide__address__labels: true;
 @checkout__placeholder__hide__email__label: true;
+@checkout__placeholder__hide__comment__label: true;
 
 //
 //  Common
@@ -22,6 +23,12 @@
 
     & when (@checkout__placeholder__hide__email__label = true) {
         #customer-email-fieldset label {
+            display: none;
+        }
+    }
+
+    & when (@checkout__placeholder__hide__comment__label = true) {
+        div.field[class*="comment"] .label {
             display: none;
         }
     }

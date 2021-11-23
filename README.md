@@ -1,14 +1,15 @@
 ### Checkout placeholder
-#### Facts
-* Enrich all checkout address fields with HTML placeholders (copy labels) incl. "required-entry" mark ("*").
-* Enrich checkout email field with HTML placeholder incl. "required-entry" mark ("*").
-* Hide all checkout address labels. (less)
-* Hide checkout email label. (less)
-* "Add placeholder" methods
-    * address fields
-      * layoutProcessor on Magento\Checkout\Block\Onepage
-    * email field
-      * knockout template override
+#### Description
+This module is designed to visually change all field pairs (label + field) so that the label is placed inside the field. (As HTML Placeholder incl. "required-entry" mark "*")
+
+The following field pairs will be changed:
+
+- All field pairs of the billing address
+- All field pairs of the shipping address
+- The field pair of the email address
+- The field pair of the comment field
+
+The labels remain untouched and are hidden via CSS.
 
 #### Compatibility
 

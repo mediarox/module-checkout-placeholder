@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright 2021 (c) mediarox UG (haftungsbeschraenkt) (http://www.mediarox.de)
- * See COPYING.txt for license details.
+ * See LICENSE for license details.
  */
 declare(strict_types=1);
 
@@ -11,44 +11,38 @@ use Magento\Framework\Phrase;
 
 class Data
 {
-    public function convertFieldLabelsIntoPlaceholders(array $fields): array
+    public const KEY_STREET = 'street';
+    
+    public function convertFieldList(array &$fieldList): void
     {
-        foreach ($fields as $key => $field) {
-            switch ($key) {
-                case 'street':
-                    $streetFields = $field['children'];
-                    foreach ($streetFields as $streetKey => $streetField) {
-                        $this->processField($streetFields, $streetKey, $field);
-                    }
-                    $fields[$key]['children'] = $streetFields;
-                    break;
-                default:
-                    $this->processField($fields, $key);
-                    break;
+        foreach ($fieldList as $key => &$field) {
+            if($this->isStreet($key)) {
+                foreach ($field['children'] as &$childField) {
+                    $this->addPlaceholder($childField);
+                }
+                unset($childField);
+                continue;
             }
+            $this->addPlaceholder($field);
         }
-        return $fields;
     }
-
-    public function processField(array &$fieldArray, $fieldKey, $parentField = null): void
+    
+    public function isStreet(string $key): bool 
     {
-        $currentField = $fieldArray[$fieldKey];
-        $this->copyLabelIntoPlaceholder($currentField, $parentField);
-        $fieldArray[$fieldKey] = $currentField;
+        return self::KEY_STREET === $key;
     }
-
-    public function copyLabelIntoPlaceholder(array &$field, $parentField = null): void
+    
+    public function addPlaceholder(array &$field): void
     {
-        $label = $field['label'] ?? $parentField['label'] ?? false;
-        if (!$label) {
-            return;
+        $label = $field['label'] ?? false;
+        if ($label) {
+            $labelNeedTranslation = ($label instanceof Phrase);
+            $label = $labelNeedTranslation ? (string)__($label) : $label;
+            $field['placeholder'] = $label . $this->getRequiredEntryMark($field);
         }
-        $labelNeedTranslation = ($label instanceof Phrase);
-        $label = $labelNeedTranslation ? (string)__($label) : $label;
-        $field['placeholder'] = $label . $this->getRequiredEntryMark($field);
     }
-
-    public function getRequiredEntryMark(array &$field): string
+    
+    public function getRequiredEntryMark(array $field): string
     {
         $isRequiredEntry = $field['validation']['required-entry'] ?? false;
         return $isRequiredEntry ? ' *' : '';

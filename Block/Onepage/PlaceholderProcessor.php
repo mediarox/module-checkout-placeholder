@@ -31,13 +31,7 @@ class PlaceholderProcessor implements LayoutProcessorInterface
         $this->arrayManager = $arrayManager;
         $this->placeholderHelper = $placeholderHelper;
     }
-    
-    /**
-     * Remove not qualified search items.
-     *
-     * @param  array $searchItems
-     * @return array
-     */
+
     public function filterInvalidSearchItems(array $searchItems): array
     {
         return array_filter($searchItems, static function ($item) {
@@ -48,7 +42,9 @@ class PlaceholderProcessor implements LayoutProcessorInterface
     }
 
     /**
-     * @param  array $jsLayout
+     * Processor init.
+     *
+     * @param array $jsLayout
      * @return array
      */
     public function process($jsLayout)
@@ -63,39 +59,35 @@ class PlaceholderProcessor implements LayoutProcessorInterface
      */
     protected function searchNodes(array $searchCriteria, array $jsLayout): \Generator
     {
-        foreach($searchCriteria as $searchCriterion) {
+        foreach ($searchCriteria as $searchCriterion) {
             $componentPaths = $this->arrayManager->findPaths($searchCriterion[self::COMPONENT_SEARCH_KEY], $jsLayout);
             foreach ($componentPaths as $componentPath) {
                 $path = $componentPath . $searchCriterion[self::COMPONENT_SEARCH_PATH];
                 $node = $this->arrayManager->get($path, $jsLayout);
-                if($node) {
+                if ($node) {
                     yield $path => $node;
                 }
             }
         }
     }
-    
+
     /**
      * Search and convert all field lists.
-     * 
-     * @param $jsLayout
      */
-    public function processFieldLists(&$jsLayout): void 
+    public function processFieldLists(array &$jsLayout): void
     {
-        foreach($this->searchNodes($this->fieldLists, $jsLayout) as $path => $node) {
+        foreach ($this->searchNodes($this->fieldLists, $jsLayout) as $path => $node) {
             $this->placeholderHelper->convertFieldList($node);
             $jsLayout = $this->arrayManager->merge($path, $jsLayout, $node);
-        };
+        }
     }
 
     /**
      * Search and convert all specific fields.
-     * 
-     * @param $jsLayout
      */
-    public function processFields(&$jsLayout): void
+    public function processFields(array &$jsLayout): void
     {
-        foreach($this->searchNodes($this->fields, $jsLayout) as $path => $node) {
+        foreach ($this->searchNodes($this->fields, $jsLayout) as $path => $node) {
             $this->placeholderHelper->addPlaceholder($node);
             $jsLayout = $this->arrayManager->merge($path, $jsLayout, $node);
         }

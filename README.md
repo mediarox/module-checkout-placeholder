@@ -23,7 +23,6 @@ bin/magento setup:upgrade
 * [amzn/amazon-pay-magento-2-module](https://marketplace.magento.com/amzn-amazon-pay-magento-2-module.html) (up-to-date amazon pay module), tested: 5.7.1, 5.9.1
 * [amasty/module-single-step-checkout](https://amasty.com/one-step-checkout-for-magento-2.html), tested: 3.1.2, 3.1.3
 
-
 #### Wiki
 
 * [How do I add a custom checkout field ?](https://github.com/mediarox/module-checkout-placeholder/wiki/How-do-I-add-a-custom-checkout-field-%3F)

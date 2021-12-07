@@ -7,6 +7,8 @@ var config = {
                 'Checkout_Placeholder/template/form/element/email-amasty-checkout',
             'Amazon_Pay/template/form/element/email':
                 'Checkout_Placeholder/template/form/element/email-amazon-pay',
+            'Amazon_Payment/template/form/element/email':
+                'Checkout_Placeholder/template/form/element/email-amazon-payment',
         }
     }
 };

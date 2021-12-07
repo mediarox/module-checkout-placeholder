@@ -21,6 +21,7 @@ bin/magento setup:upgrade
 
 * amzn/amazon-pay-magento-2-module, tested: 5.7.1, 5.9.1
 * amasty/module-single-step-checkout, tested: 3.1.2, 3.1.3
+* amzn/amazon-pay-module, tested: 4.2.2
 
 #### Wiki
 

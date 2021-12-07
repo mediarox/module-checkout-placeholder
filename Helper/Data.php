@@ -12,11 +12,11 @@ use Magento\Framework\Phrase;
 class Data
 {
     public const KEY_STREET = 'street';
-    
+
     public function convertFieldList(array &$fieldList): void
     {
         foreach ($fieldList as $key => &$field) {
-            if($this->isStreet($key)) {
+            if ($this->isStreet($key)) {
                 foreach ($field['children'] as &$childField) {
                     $this->addPlaceholder($childField);
                 }
@@ -27,7 +27,7 @@ class Data
         }
     }
     
-    public function isStreet(string $key): bool 
+    public function isStreet(string $key): bool
     {
         return self::KEY_STREET === $key;
     }

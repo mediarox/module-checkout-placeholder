@@ -19,18 +19,19 @@ bin/magento setup:upgrade
 
 #### Compatible with
 
-* amzn/amazon-pay-magento-2-module, tested: 5.7.1, 5.9.1
-* amasty/module-single-step-checkout, tested: 3.1.2, 3.1.3
-* amzn/amazon-pay-module, tested: 4.2.2
+* amzn/amazon-pay-module (deprecated core dependency), tested: 4.2.2
+* [amzn/amazon-pay-magento-2-module](https://marketplace.magento.com/amzn-amazon-pay-magento-2-module.html) (up-to-date amazon pay module), tested: 5.7.1, 5.9.1
+* [amasty/module-single-step-checkout](https://amasty.com/one-step-checkout-for-magento-2.html), tested: 3.1.2, 3.1.3
 
 #### Wiki
 
-[How do I add a custom checkout field ?](https://github.com/mediarox/module-checkout-placeholder/wiki/How-do-I-add-a-custom-checkout-field-%3F)
+* [How do I add a custom checkout field ?](https://github.com/mediarox/module-checkout-placeholder/wiki/How-do-I-add-a-custom-checkout-field-%3F)
+* [What does the checkout look like with the Amasty Checkout module ?](https://github.com/mediarox/module-checkout-placeholder/wiki/What-does-the-checkout-look-like-with-the-Amasty-Checkout-module-%3F)
 
-#### before
+#### Before
 
 ![without_extension](https://user-images.githubusercontent.com/32567473/144977948-00406294-dbf6-4951-9de9-e21c0fc8abc8.jpg)
 
-#### after
+#### After
 
 ![with_extension](https://user-images.githubusercontent.com/32567473/144977092-26bc5720-49cd-4b7f-9a0f-c1329cb99322.jpg)

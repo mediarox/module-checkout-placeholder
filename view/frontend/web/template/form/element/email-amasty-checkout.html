@@ -46,7 +46,7 @@
                                     input: isPasswordSet($element)
                                 },
                                 attr: {
-                                    placeholder: $t('optional'),
+                                    placeholder: $t('Password'),
                                     'data-validate':JSON.stringify({required:true,'validate-customer-password': validate()}),
                                     'data-password-min-character-sets': getRequiredCharacterClassesNumber(),
                                     'data-password-min-length': getMinimumPasswordLength()
@@ -72,7 +72,7 @@
                            data-bind="
                                 value: passwordConfirmation,
                                 attr: {
-                                    placeholder: isPassword() == true ? '' : $t('optional'),
+                                    placeholder: isPassword() == true ? '' : $t('Confirm Password'),
                                 }"
                            type="password"
                            name="password-confirmation"

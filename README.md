@@ -27,6 +27,7 @@ bin/magento setup:upgrade
 
 * [How do I add a custom checkout field ?](https://github.com/mediarox/module-checkout-placeholder/wiki/How-do-I-add-a-custom-checkout-field-%3F)
 * [What does the checkout look like with the Amasty Checkout module ?](https://github.com/mediarox/module-checkout-placeholder/wiki/What-does-the-checkout-look-like-with-the-Amasty-Checkout-module-%3F)
+* [What about Hyvä or the Hyvä Checkout ?](https://github.com/mediarox/module-checkout-placeholder/wiki/What-about-Hyv%C3%A4-or-the-Hyv%C3%A4-Checkout-%3F)
 
 #### Before
 

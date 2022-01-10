@@ -14,15 +14,17 @@
 & when (@media-common = true) {
 
     & when (@checkout__placeholder__hide__address__labels = true) {
-        .checkout-index-index .fieldset.address .field .label,
-        .checkout-index-index .fieldset.address .field .label::before,
-        .checkout-index-index .fieldset.address .field .label::after {
+        .checkout-index-index .fieldset.address .field:not(.choice) .label {
             display: none;
+            &::before,
+            &::after {
+                display: none;
+            }
         }
     }
 
     & when (@checkout__placeholder__hide__email__label = true) {
-        #customer-email-fieldset label {
+        #customer-email-fieldset label:not(.choice) {
             display: none;
         }
     }

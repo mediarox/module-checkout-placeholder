@@ -7,89 +7,88 @@ declare(strict_types=1);
 
 namespace Checkout\Placeholder\Block\Onepage;
 
-use Checkout\Placeholder\Helper\Data as PlaceholderHelper;
+use Checkout\Placeholder\Model\FieldFilter;
+use Checkout\Placeholder\Model\PlaceholderInterface;
+use Checkout\Placeholder\Model\System\Config;
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
+use Magento\Framework\Phrase;
 use Magento\Framework\Stdlib\ArrayManager;
 
-class PlaceholderProcessor implements LayoutProcessorInterface
+class PlaceholderProcessor implements LayoutProcessorInterface, PlaceholderInterface
 {
-    public const COMPONENT_SEARCH_KEY = 'searchKey';
-    public const COMPONENT_SEARCH_PATH = 'path';
-    protected array $fieldLists;
-    protected array $fields;
+    public const KEY_STREET = 'street';
     protected ArrayManager $arrayManager;
-    protected PlaceholderHelper $placeholderHelper;
+    protected FieldFilter $fieldFilter;
+    protected Config $config;
 
     public function __construct(
-        array $fieldLists,
-        array $fields,
+        FieldFilter $fieldFilter,
         ArrayManager $arrayManager,
-        PlaceholderHelper $placeholderHelper
+        Config $config
     ) {
-        $this->fieldLists = $this->filterInvalidSearchItems($fieldLists);
-        $this->fields = $this->filterInvalidSearchItems($fields);
         $this->arrayManager = $arrayManager;
-        $this->placeholderHelper = $placeholderHelper;
-    }
-
-    public function filterInvalidSearchItems(array $searchItems): array
-    {
-        return array_filter($searchItems, static function ($item) {
-            $keyAvailable = $item[self::COMPONENT_SEARCH_KEY] ?? false;
-            $pathAvailable = $item[self::COMPONENT_SEARCH_PATH] ?? false;
-            return $keyAvailable && $pathAvailable;
-        });
-    }
-
-    /**
-     * Processor init.
-     *
-     * @param array $jsLayout
-     * @return array
-     */
-    public function process($jsLayout)
-    {
-        $this->processFieldLists($jsLayout);
-        $this->processFields($jsLayout);
-        return $jsLayout;
-    }
-
-    /**
-     * Get nodes by search criteria list.
-     */
-    protected function searchNodes(array $searchCriteria, array $jsLayout): \Generator
-    {
-        foreach ($searchCriteria as $searchCriterion) {
-            $componentPaths = $this->arrayManager->findPaths($searchCriterion[self::COMPONENT_SEARCH_KEY], $jsLayout);
-            foreach ($componentPaths as $componentPath) {
-                $path = $componentPath . $searchCriterion[self::COMPONENT_SEARCH_PATH];
-                $node = $this->arrayManager->get($path, $jsLayout);
-                if ($node) {
-                    yield $path => $node;
-                }
-            }
-        }
+        $this->fieldFilter = $fieldFilter;
+        $this->config = $config;
     }
 
     /**
      * Search and convert all field lists.
      */
-    public function processFieldLists(array &$jsLayout): void
+    private function processFields(array $jsLayout): array
     {
-        foreach ($this->searchNodes($this->fieldLists, $jsLayout) as $path => $node) {
-            $this->placeholderHelper->convertFieldList($node);
+        $nodes = $this->fieldFilter->getFields($jsLayout);
+        foreach ($nodes as $path => $node) {
+            if (isset($node['component'])) {
+                $node['single'] = 1;
+                $node = [$node];
+            }
+            $this->convertFieldList($node);
+            if (count($node) === 1 && $node[0]['single']) {
+                $node = array_pop($node);
+            }
             $jsLayout = $this->arrayManager->merge($path, $jsLayout, $node);
+        }
+        return $jsLayout;
+    }
+
+    private function convertFieldList(array &$fieldList): void
+    {
+        foreach ($fieldList as $key => &$field) {
+            if (self::KEY_STREET === $key) {
+                $this->convertFieldList($field['children']);
+            }
+            $this->addPlaceholder($field);
         }
     }
 
-    /**
-     * Search and convert all specific fields.
-     */
-    public function processFields(array &$jsLayout): void
+    private function addPlaceholder(array &$field): void
     {
-        foreach ($this->searchNodes($this->fields, $jsLayout) as $path => $node) {
-            $this->placeholderHelper->addPlaceholder($node);
-            $jsLayout = $this->arrayManager->merge($path, $jsLayout, $node);
+        $override = isset($field[Config::COLUMN_KEY_PLACEHOLDER_TEXT]);
+        $label = $override ? $field[Config::COLUMN_KEY_PLACEHOLDER_TEXT] : $field['label'] ?? false;
+        if ($label) {
+            $labelNeedTranslation = ($label instanceof Phrase);
+            $label = $labelNeedTranslation ? (string)__($label) : $label;
+            $field['placeholder'] = $label . $this->getRequiredEntryMark($field);
         }
+    }
+
+    private function getRequiredEntryMark(array &$field): string
+    {
+        $requiredChar = $this->config->getCustomRequiredMark() ?: ' *';
+        $isRequiredEntry = isset($field['validation']['required-entry'])
+            && $field['validation']['required-entry']
+            && $this->config->getEnableRequiredMark();
+        return $isRequiredEntry ? $requiredChar : '';
+    }
+
+    /**
+     * Processor init.
+     *
+     * @param  array $jsLayout
+     * @return array
+     */
+    public function process($jsLayout)
+    {
+        return $this->config->getEnable() ? $this->processFields($jsLayout) : $jsLayout;
     }
 }

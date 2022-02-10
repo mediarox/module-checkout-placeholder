@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Checkout_Placeholder
+ * @copyright Copyright 2022(c) mediarox UG (haftungsbeschraenkt) (http://www.mediarox.de)
+ * @author Marcus Bernt <mbernt@mediarox.de>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="content">
+            <block class="Magento\Framework\View\Element\Template" name="checkout.placeholder.css"
+                   template="Checkout_Placeholder::css.phtml" ifconfig="checkout_placeholder/general/hide_labels"/>
+        </referenceBlock>
+    </body>
+</page>

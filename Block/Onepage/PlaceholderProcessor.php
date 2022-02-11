@@ -16,7 +16,6 @@ use Magento\Framework\Stdlib\ArrayManager;
 
 class PlaceholderProcessor implements LayoutProcessorInterface, PlaceholderInterface
 {
-    public const KEY_STREET = 'street';
     protected ArrayManager $arrayManager;
     protected FieldFilter $fieldFilter;
     protected Config $config;
@@ -68,7 +67,7 @@ class PlaceholderProcessor implements LayoutProcessorInterface, PlaceholderInter
         if ($label) {
             $labelNeedTranslation = ($label instanceof Phrase);
             $label = $labelNeedTranslation ? (string)__($label) : $label;
-            $field['placeholder'] = $label . $this->getRequiredEntryMark($field);
+            $field[Config::COLUMN_KEY_PLACEHOLDER] = $label . $this->getRequiredEntryMark($field);
         }
     }
 

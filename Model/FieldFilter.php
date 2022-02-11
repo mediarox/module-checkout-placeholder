@@ -78,6 +78,14 @@ class FieldFilter implements PlaceholderInterface
     private function addCustomFieldsConfig(array &$node)
     {
         foreach ($this->customFieldConfig as $key => $customConfig) {
+            if (str_contains($key, self::NEEDLE)) {
+                $subStreet = explode(self::NEEDLE, $key);
+                if (self::KEY_STREET == $subStreet[0] && isset($node[self::KEY_STREET])) {
+                    $lineNr = $subStreet[1] - 1;
+                    $node[self::KEY_STREET]['children'][$lineNr][Config::COLUMN_KEY_PLACEHOLDER_TEXT] =
+                        $customConfig[Config::COLUMN_KEY_PLACEHOLDER_TEXT];
+                }
+            }
             if (isset($node[$key])) {
                 $node[$key][Config::COLUMN_KEY_PLACEHOLDER_TEXT] = $customConfig[Config::COLUMN_KEY_PLACEHOLDER_TEXT];
             }

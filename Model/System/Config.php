@@ -51,28 +51,29 @@ class Config implements ConfigInterface
         return (int)$this->getConfigValue(self::SYSTEM_CONFIG_KEY_ENABLE_REQUIRED_MARK);
     }
 
-    public function getSpecificFieldConfig(): array
+    public function getSpecificFieldConfig(string $fieldId, string $path): array
     {
+        if (0 < (int)$fieldId) {
+            $fieldId = self::COLUMN_KEY_STREET_PREFIX . $fieldId;
+        }
+
         $systemValues = $this->getConfigValue(self::SYSTEM_CONFIG_KEY_SPECIFIC_FIELDS) ?
             $this->json->unserialize($this->getConfigValue(self::SYSTEM_CONFIG_KEY_SPECIFIC_FIELDS)) : [];
 
         $config = [];
-        foreach ($systemValues as $value) {
-            $id = array_shift($value);
-            $config[$id] = $value;
-        }
-        return $config;
-    }
 
-    public function getSearchCriteria(): array
-    {
-        $systemValues = $this->getConfigValue(self::SYSTEM_CONFIG_KEY_SEARCH_CRITERIA) ?
-            $this->json->unserialize($this->getConfigValue(self::SYSTEM_CONFIG_KEY_SEARCH_CRITERIA)) : [];
-
-        $config = [];
         foreach ($systemValues as $value) {
-            $id = array_shift($value);
-            $config[$id] = $value;
+            if (array_shift($value) === $fieldId) {
+                $isUnique = isset($value[self::COLUMN_KEY_FIELDSET_ID]);
+                $correctPath = strstr($path, $value[self::COLUMN_KEY_FIELDSET_ID]);
+                if ($isUnique && $correctPath) {
+                    $config = $value;
+                } elseif ($isUnique && !$correctPath) {
+                    continue;
+                } else {
+                    $config = $value;
+                }
+            }
         }
         return $config;
     }

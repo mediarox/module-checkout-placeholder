@@ -9,8 +9,9 @@ namespace Checkout\Placeholder\Model;
 
 interface PlaceholderInterface
 {
-    public const KEY_STREET = 'street';
-    const NEEDLE = '_';
-    public const COMPONENT_SEARCH_KEY = 'searchKey';
-    public const COMPONENT_SEARCH_PATH = 'path';
+    const START_PATH_CHECKOUT_COMPONENTS_CHILDREN = 'components/checkout/children';
+
+    const KEY_ID = 'id';
+    const KEY_PATH = 'path';
+    const KEY_LABEL = 'label';
 }

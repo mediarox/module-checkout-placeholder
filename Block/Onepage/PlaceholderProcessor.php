@@ -35,45 +35,30 @@ class PlaceholderProcessor implements LayoutProcessorInterface, PlaceholderInter
      */
     private function processFields(array $jsLayout): array
     {
-        $nodes = $this->fieldFilter->getFields($jsLayout);
-        foreach ($nodes as $path => $node) {
-            if (isset($node['component'])) {
-                $node['single'] = 1;
-                $node = [$node];
-            }
-            $this->convertFieldList($node);
-            if (count($node) === 1 && $node[0]['single']) {
-                $node = array_pop($node);
-            }
-            $jsLayout = $this->arrayManager->merge($path, $jsLayout, $node);
+        $nodes = $this->fieldFilter->getLabeledFields($jsLayout);
+        foreach ($nodes as $node) {
+            $this->addPlaceholder($node);
+            $jsLayout = $this->arrayManager->merge($node[self::KEY_PATH], $jsLayout, $node);
         }
         return $jsLayout;
     }
 
-    private function convertFieldList(array &$fieldList): void
+    private function addPlaceholder(array &$node): void
     {
-        foreach ($fieldList as $key => &$field) {
-            if (self::KEY_STREET === $key) {
-                $this->convertFieldList($field['children']);
-            }
-            $this->addPlaceholder($field);
-        }
-    }
-
-    private function addPlaceholder(array &$field): void
-    {
-        $override = isset($field[Config::COLUMN_KEY_PLACEHOLDER_TEXT]);
-        $label = $override ? $field[Config::COLUMN_KEY_PLACEHOLDER_TEXT] : $field['label'] ?? false;
+        $config = $this->config->getSpecificFieldConfig($node[self::KEY_ID], $node[self::KEY_PATH]);
+        $override = isset($config[Config::COLUMN_KEY_PLACEHOLDER]) ?
+            $config[Config::COLUMN_KEY_PLACEHOLDER] :
+            '';
+        $label = $override ?: $node[self::KEY_LABEL] ?? false;
         if ($label) {
-            $labelNeedTranslation = ($label instanceof Phrase);
-            $label = $labelNeedTranslation ? (string)__($label) : $label;
-            $field[Config::COLUMN_KEY_PLACEHOLDER] = $label . $this->getRequiredEntryMark($field);
+            $label = ($label instanceof Phrase) ? (string)__($label) : $label;
+            $node[Config::COLUMN_KEY_PLACEHOLDER] = $label . ' ' . $this->getRequiredEntryMark($node);
         }
     }
 
     private function getRequiredEntryMark(array &$field): string
     {
-        $requiredChar = $this->config->getCustomRequiredMark() ?: ' *';
+        $requiredChar = $this->config->getCustomRequiredMark() ?: '*';
         $isRequiredEntry = isset($field['validation']['required-entry'])
             && $field['validation']['required-entry']
             && $this->config->getEnableRequiredMark();

@@ -9,91 +9,44 @@ declare(strict_types=1);
 
 namespace Checkout\Placeholder\Model;
 
-use Checkout\Placeholder\Model\System\Config;
 use Magento\Framework\Stdlib\ArrayManager;
 
 class FieldFilter implements PlaceholderInterface
 {
-    protected array $searchCriteria = [];
     protected ArrayManager $arrayManager;
-    protected Config $config;
-    private array $customFieldConfig = [];
 
     public function __construct(
-        ArrayManager $arrayManager,
-        Config $config,
-        array $searchCriteria = []
+        ArrayManager $arrayManager
     ) {
-        $this->searchCriteria = $searchCriteria;
         $this->arrayManager = $arrayManager;
-        $this->config = $config;
     }
 
-    /**
-     * Step 1: Fetch custom field criteria and config values (for specific fields)
-     * Step 2: Fetch search criteria (still possible to add via di.xml) and merge field criteria
-     *
-     * @return array
-     */
-    private function getSearchCriteria()
+    private function getFieldId(string $path)
     {
-        // Step 1
-        $this->customFieldConfig = $this->config->getSpecificFieldConfig();
-        // Step 2
-        $this->searchCriteria = array_merge(
-            $this->searchCriteria,
-            $this->customFieldConfig,
-            $this->config->getSearchCriteria()
+        $elements = explode(ArrayManager::DEFAULT_PATH_DELIMITER, $path);
+        return array_pop($elements);
+    }
+
+    public function getLabeledFields(array $jsLayout): array
+    {
+        $checkoutRoot = $this->arrayManager->get(self::START_PATH_CHECKOUT_COMPONENTS_CHILDREN, $jsLayout);
+        $componentPaths = $this->arrayManager->findPaths(
+            self::KEY_LABEL,
+            $checkoutRoot
         );
-        return $this->searchCriteria;
-    }
 
-    private function filterInvalidSearchItems(array $searchItems): array
-    {
-        return array_filter($searchItems, static function ($item) {
-            $keyAvailable = $item[self::COMPONENT_SEARCH_KEY] ?? false;
-            $pathAvailable = $item[self::COMPONENT_SEARCH_PATH] ?? false;
-            return $keyAvailable && $pathAvailable;
-        });
-    }
-
-    /**
-     * Get nodes by search criteria list.
-     */
-    private function searchNodes(array $searchCriteria, array $jsLayout): \Generator
-    {
-        foreach ($searchCriteria as $searchCriterion) {
-            $componentPaths = $this->arrayManager->findPaths($searchCriterion[self::COMPONENT_SEARCH_KEY], $jsLayout);
-            foreach ($componentPaths as $componentPath) {
-                $path = $componentPath . $searchCriterion[self::COMPONENT_SEARCH_PATH];
-                $node = $this->arrayManager->get($path, $jsLayout);
-                if ($node) {
-                    $this->addCustomFieldsConfig($node);
-                    yield $path => $node;
-                }
+        $nodes = [];
+        foreach ($componentPaths as $componentPath) {
+            $componentPath = str_replace('/label', '', $componentPath);
+            $node = $this->arrayManager->get($componentPath, $checkoutRoot);
+            if ($node) {
+                $node[self::KEY_ID] = $this->getFieldId($componentPath);
+                $node[self::KEY_PATH] = self::START_PATH_CHECKOUT_COMPONENTS_CHILDREN .
+                    ArrayManager::DEFAULT_PATH_DELIMITER .
+                    $componentPath;
+                $nodes[] = $node;
             }
         }
-    }
-
-    private function addCustomFieldsConfig(array &$node)
-    {
-        foreach ($this->customFieldConfig as $key => $customConfig) {
-            if (str_contains($key, self::NEEDLE)) {
-                $subStreet = explode(self::NEEDLE, $key);
-                if (self::KEY_STREET == $subStreet[0] && isset($node[self::KEY_STREET])) {
-                    $lineNr = $subStreet[1] - 1;
-                    $node[self::KEY_STREET]['children'][$lineNr][Config::COLUMN_KEY_PLACEHOLDER_TEXT] =
-                        $customConfig[Config::COLUMN_KEY_PLACEHOLDER_TEXT];
-                }
-            }
-            if (isset($node[$key])) {
-                $node[$key][Config::COLUMN_KEY_PLACEHOLDER_TEXT] = $customConfig[Config::COLUMN_KEY_PLACEHOLDER_TEXT];
-            }
-        }
-    }
-
-    public function getFields(array $jsLayout): \Generator
-    {
-        return $this->searchNodes($this->filterInvalidSearchItems($this->getSearchCriteria()), $jsLayout);
+        return $nodes;
     }
 }

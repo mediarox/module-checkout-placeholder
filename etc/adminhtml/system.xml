@@ -36,11 +36,6 @@
                         <field id="enable_required_mark">1</field>
                     </depends>
                 </field>
-                <field id="search_criteria" showInDefault="1" showInWebsite="1" showInStore="0" translate="label">
-                    <label>Fieldset Search Criteria</label>
-                    <frontend_model>Checkout\Placeholder\Block\Adminhtml\Form\Field\SearchCriteria</frontend_model>
-                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
-                </field>
                 <field id="specific_fields" showInDefault="1" showInWebsite="1" showInStore="0" translate="label">
                     <label>Specific Field Config</label>
                     <frontend_model>Checkout\Placeholder\Block\Adminhtml\Form\Field\SpecificFieldConfig</frontend_model>

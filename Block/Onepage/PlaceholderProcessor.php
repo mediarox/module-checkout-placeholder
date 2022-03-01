@@ -45,14 +45,15 @@ class PlaceholderProcessor implements LayoutProcessorInterface, PlaceholderInter
 
     private function addPlaceholder(array &$node): void
     {
-        $config = $this->config->getSpecificFieldConfig($node[self::KEY_ID], $node[self::KEY_PATH]);
+        $config = $this->config->getFieldConfig($node[self::KEY_ID], $node[self::KEY_PATH]);
         $override = isset($config[Config::COLUMN_KEY_PLACEHOLDER]) ?
             $config[Config::COLUMN_KEY_PLACEHOLDER] :
             '';
         $label = $override ?: $node[self::KEY_LABEL] ?? false;
         if ($label) {
             $label = ($label instanceof Phrase) ? (string)__($label) : $label;
-            $node[Config::COLUMN_KEY_PLACEHOLDER] = $label . ' ' . $this->getRequiredEntryMark($node);
+            $customMark = $this->getRequiredEntryMark($node) ?: $this->getOptionalEntryMark($config);
+            $node[Config::COLUMN_KEY_PLACEHOLDER] = $label . ' ' . $customMark;
         }
     }
 
@@ -63,6 +64,13 @@ class PlaceholderProcessor implements LayoutProcessorInterface, PlaceholderInter
             && $field['validation']['required-entry']
             && $this->config->getEnableRequiredMark();
         return $isRequiredEntry ? $requiredChar : '';
+    }
+
+    private function getOptionalEntryMark($config): string
+    {
+        return isset($config[Config::SYSTEM_CONFIG_KEY_CUSTOM_OPTIONAL_MARK]) ?
+            $config[Config::SYSTEM_CONFIG_KEY_CUSTOM_OPTIONAL_MARK] :
+            '';
     }
 
     /**

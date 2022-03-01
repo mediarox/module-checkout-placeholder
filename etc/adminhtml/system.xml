@@ -37,8 +37,23 @@
                     </depends>
                 </field>
                 <field id="specific_fields" showInDefault="1" showInWebsite="1" showInStore="0" translate="label">
-                    <label>Specific Field Config</label>
+                    <label>Specific Fields</label>
                     <frontend_model>Checkout\Placeholder\Block\Adminhtml\Form\Field\SpecificFieldConfig</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+            <group id="optional_marks" showInDefault="1" showInWebsite="1" showInStore="0" translate="label">
+                <label>Optional Fields</label>
+                <field id="enable" showInDefault="1" showInWebsite="1" showInStore="0" translate="label" type="select">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                <field id="custom_optional_mark" showInDefault="1" showInWebsite="1" showInStore="0" translate="label" type="text">
+                    <label>Optional Mark</label>
+                </field>
+                <field id="optional_fields" showInDefault="1" showInWebsite="1" showInStore="0" translate="label">
+                    <label>Optional Fields</label>
+                    <frontend_model>Checkout\Placeholder\Block\Adminhtml\Form\Field\OptionalFieldConfig</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                 </field>
             </group>

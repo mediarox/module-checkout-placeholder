@@ -1,0 +1,21 @@
+<?php
+/**
+ * @package   Checkout_Placeholder
+ * @copyright Copyright 2022 (c) mediarox UG (haftungsbeschraenkt) (http://www.mediarox.de)
+ * @author    Marcus Bernt <mbernt@mediarox.de>
+ *
+ * @var Template $block
+ */
+
+use Magento\Framework\View\Element\Template;
+
+?>
+<?php $config = $block->getData('config_view_model')->getConfig(); ?>
+<?php $requiredMark = $config->getCustomRequiredMark(); ?>
+<?php if ($requiredMark): ?>
+    <style>
+        .fieldset > .field.required > .label::after, .fieldset > .fields > .field.required > .label::after, .fieldset > .field._required > .label::after, .fieldset > .fields > .field._required > .label::after {
+            content: '<?= $requiredMark ?>';
+        }
+    </style>
+<?php endif; ?>

@@ -12,6 +12,12 @@
         <referenceBlock name="content">
             <block class="Magento\Framework\View\Element\Template" name="checkout.placeholder.css"
                    template="Checkout_Placeholder::css.phtml" ifconfig="checkout_placeholder/general/hide_labels"/>
+            <block class="Magento\Framework\View\Element\Template" name="checkout.placeholder.custom.required.mark"
+                   template="Checkout_Placeholder::custom-required-mark.phtml" ifconfig="checkout_placeholder/general/enable_required_mark">
+                <arguments>
+                    <argument name="config_view_model" xsi:type="object">Checkout\Placeholder\ViewModel\ConfigViewModel</argument>
+                </arguments>
+            </block>
         </referenceBlock>
     </body>
 </page>

@@ -11,11 +11,17 @@ use Magento\Framework\View\Element\Template;
 
 ?>
 <?php $config = $block->getData('config_view_model')->getConfig(); ?>
-<?php $requiredMark = $config->getCustomRequiredMark(); ?>
-<?php if ($requiredMark): ?>
+<?php if ($config->getEnableRequiredMark()): ?>
+    <?php $requiredMark = $config->getCustomRequiredMark(); ?>
     <style>
         .fieldset > .field.required > .label::after, .fieldset > .fields > .field.required > .label::after, .fieldset > .field._required > .label::after, .fieldset > .fields > .field._required > .label::after {
             content: '<?= $requiredMark ?>';
+        }
+    </style>
+<?php else: ?>
+    <style>
+        .fieldset > .field.required > .label::after, .fieldset > .fields > .field.required > .label::after, .fieldset > .field._required > .label::after, .fieldset > .fields > .field._required > .label::after {
+            content: '';
         }
     </style>
 <?php endif; ?>

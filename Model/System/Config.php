@@ -43,7 +43,8 @@ class Config implements ConfigInterface
 
     public function getCustomRequiredMark(): string
     {
-        return $this->getConfigValue(self::SYSTEM_CONFIG_KEY_CUSTOM_REQUIRED_MARK);
+        return $this->getConfigValue(self::SYSTEM_CONFIG_KEY_CUSTOM_REQUIRED_MARK) ?:
+            self::DEFAULT_REQUIRED_MARK;
     }
 
     public function getEnableRequiredMark(): int
@@ -76,8 +77,8 @@ class Config implements ConfigInterface
         }
 
         $configPaths = [
-            self::SYSTEM_CONFIG_BASE_PATH_GENERAL => self::SYSTEM_CONFIG_KEY_SPECIFIC_FIELDS,
-            self::SYSTEM_CONFIG_BASE_PATH_OPTIONAL_MARKS => self::SYSTEM_CONFIG_KEY_OPTIONAL_FIELDS
+            self::SYSTEM_CONFIG_BASE_PATH_GENERAL        => self::SYSTEM_CONFIG_KEY_SPECIFIC_FIELDS,
+            self::SYSTEM_CONFIG_BASE_PATH_OPTIONAL_MARKS => self::SYSTEM_CONFIG_KEY_OPTIONAL_FIELDS,
         ];
 
         $config = [];

@@ -13,6 +13,7 @@ interface ConfigInterface
     const SYSTEM_CONFIG_KEY_ENABLE = 'enable';
     const SYSTEM_CONFIG_KEY_ENABLE_REQUIRED_MARK = 'enable_required_mark';
     const SYSTEM_CONFIG_KEY_CUSTOM_REQUIRED_MARK = 'custom_required_mark';
+    const DEFAULT_REQUIRED_MARK = '*';
     const SYSTEM_CONFIG_KEY_SPECIFIC_FIELDS = 'specific_fields';
 
     const SYSTEM_CONFIG_BASE_PATH_OPTIONAL_MARKS = 'checkout_placeholder/optional_marks/';

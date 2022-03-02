@@ -72,7 +72,7 @@ class Config implements ConfigInterface
 
     public function getFieldConfig(string $fieldId, string $path): array
     {
-        if (0 < (int)$fieldId) {
+        if (count(str_split($fieldId)) == 1) {
             $fieldId = self::COLUMN_KEY_STREET_PREFIX . $fieldId;
         }
 

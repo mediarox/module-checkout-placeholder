@@ -1,23 +1,54 @@
-### Checkout placeholder
-#### Description
-This module is designed to visually change all field pairs (label + field) so that the label is placed inside the field. (As HTML Placeholder incl. "required-entry" mark "*")
+# Checkout placeholder
 
-The following field pairs will be changed:
+## Description
+This module is designed to visually change all field pairs (label + field) so that the label is placed inside the field. (As HTML Placeholder incl. "required-entry" mark "*") Additionally you can decide if you want to hide labels, define a custom required mark, hide required marks, customize placeholder text and mark fields as
+optional.
 
-- All field pairs of the billing address (default luma, amasty checkout)
-- All field pairs of the shipping address (default luma, amasty checkout)
-- The field pair of the email address (default luma, amasty checkout, amazon pay)
-- The field pair of the comment field (amasty checkout)
+Please consider that we are not able to take every third party module into consideration. Fields that are 
+not part of a component/are inserted by layout instruction (rendered by template) are not recognized for now.
+We plan on investigating this feature in the near future.
 
-The labels remain untouched and are hidden via CSS.
+We strongly recommend running tests prior to deployment on production environments. 
 
-#### Installation
+## Features
+
+* display field label as placeholder
+* customize placeholder text
+* hide labels
+* define a custom required mark
+* hide required mark
+* mark fields as optional
+
+## Installation
 ```bash
 composer require mediarox/module-checkout-placeholder
 bin/magento setup:upgrade
 ```
 
-#### Compatible with
+## Configuration
+
+### General
+
+**Enable:** Enables the module. After enabling the module placeholder will be set.
+
+**Hide Labels:** Enable this setting to hide labels. (default: disabled)
+
+**Show Required Mark:** Enable to display required marks.(default: enabled)
+
+**Custom Required Mark:** If you want to display a custom required mark enter it here.
+
+**Specific Fields:** To override placeholder content(label text) for specific fields enter the field_id and placeholder you want to display. If you need to customize a field that is used in multiple fieldsets(e.g. firstname) enter an additional, unique fieldset id(e.g. billing-address-form). For street fields use the field_ids `street_0`, `street_1` and `street_2`.
+
+### Optional Fields
+
+**Enable:** If enabled a custom optional mark will be applied to fields configured in 
+*Optional Fields*.
+
+**Optional Mark:** Enter your optional text/mark that you want to display here.
+
+**Mark Fields As Optional:** Specify the fields you want to display an optional mark for here. If you need to customize a field that is used in multiple fieldsets(e.g. firstname) enter an additional, unique fieldset id(e.g. billing-address-form). For street fields use the field_ids `street_0`, `street_1` and `street_2`.
+
+## Compatible with
 
 * amzn/amazon-pay-module (deprecated core dependency), tested: 4.2.2
 * [amzn/amazon-pay-magento-2-module](https://marketplace.magento.com/amzn-amazon-pay-magento-2-module.html) (up-to-date amazon pay module), tested: 5.7.1, 5.9.1

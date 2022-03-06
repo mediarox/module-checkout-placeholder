@@ -1,14 +1,24 @@
 # Checkout placeholder
 
 ## Description
-This module is designed to visually change all field pairs (label + field) so that the label is placed inside the field. (As HTML Placeholder incl. "required-entry" mark "*") Additionally you can decide if you want to hide labels, define a custom required mark, hide required marks, customize placeholder text and mark fields as
+This module is designed to visually change all field pairs (label + field) so that the label is placed inside the field (As HTML Placeholder incl. "required-entry" mark "*"). Additionally, you can decide if you want to hide labels, define a custom required mark, hide required marks, customize placeholder text and mark fields as
 optional.
 
-Please consider that we are not able to take every third party module into consideration. Fields that are 
-not part of a component/are inserted by layout instruction (rendered by template) are not recognized for now.
-We plan on investigating this feature in the near future.
+## Good to know
 
-We strongly recommend running tests prior to deployment on production environments. 
+Most of the fields in the checkout are collected via PHP and rendered dynamically via templates. For example, all input fields via the template `vendor/magento/module-ui/view/frontend/web/templates/form/element/input.html`.
+For all these dynamic fields we have created a [LayoutProcessor](https://devdocs.magento.com/guides/v2.4/howdoi/checkout/checkout_custom_checkbox.html) that provides the features described below.
+
+However, there are also fields that cannot be influenced via a LayoutProcessor.
+In a standard checkout these would be the fields:
+* email
+* password
+* password confirmation (if available)
+
+These fields are created together in the knockout template `Magento_Checkout/template/form/element/email` and are also not prepared for HTML placeholders by default.
+For these fields we provide at the moment only knockout templates overrides, which ensure that always (after installation) the label is used as a placeholder. Including the static required mark "*".
+
+As soon as time or a customer order allows, we would provide these fields with full features as well.
 
 ## Features
 
@@ -27,26 +37,52 @@ bin/magento setup:upgrade
 
 ## Configuration
 
+STORES > Configuration > MEDIAROX > Checkout Placeholder
+
 ### General
 
-**Enable:** Enables the module. After enabling the module placeholder will be set.
+#### Enable 
+Enables the module. After activation, the field placeholders are filled with the label by default.
+* path: checkout_placeholder/general/enable
+* default: 0
 
-**Hide Labels:** Enable this setting to hide labels. (default: disabled)
+#### Hide Labels
+Enable this setting to hide labels.
+* path: checkout_placeholder/general/hide_labels
+* default: 0
 
-**Show Required Mark:** Enable to display required marks.(default: enabled)
+#### Show Required Mark
+Enable to display required marks.
+* path: checkout_placeholder/general/enable_required_mark
+* default: 1
 
-**Custom Required Mark:** If you want to display a custom required mark enter it here.
+#### Custom Required Mark
+If you want to display a custom required mark enter it here.
+* path: checkout_placeholder/general/custom_required_mark
+* default: '*'
+* depends on: checkout_placeholder/general/enable_required_mark = 1
 
-**Specific Fields:** To override placeholder content(label text) for specific fields enter the field_id and placeholder you want to display. If you need to customize a field that is used in multiple fieldsets(e.g. firstname) enter an additional, unique fieldset id(e.g. billing-address-form). For street fields use the field_ids `street_0`, `street_1` and `street_2`.
+#### Specific Fields
+To override placeholder content (label text) for specific fields enter the field_id and placeholder you want to display. If you need to customize a field that is used in multiple fieldsets (e.g. firstname is available in billing & shipping address) enter an additional, unique fieldset id (e.g. billing-address: 'form-fields', shipping-address: 'shipping-address-fieldset'). For street fields use the field_ids `street_0`, `street_1` and `street_2`.
+* path: checkout_placeholder/general/specific_fields
+* default: ''
 
 ### Optional Fields
 
-**Enable:** If enabled a custom optional mark will be applied to fields configured in 
-*Optional Fields*.
+#### Enable:
+If enabled a custom optional mark will be applied to fields configured in *Optional Fields*.
+* path: checkout_placeholder/optional_marks/enable
+* default: 0
 
-**Optional Mark:** Enter your optional text/mark that you want to display here.
+#### Optional Mark:
+Enter your optional text/mark that you want to display here.
+* path: checkout_placeholder/optional_marks/custom_optional_mark
+* default: ''
 
-**Mark Fields As Optional:** Specify the fields you want to display an optional mark for here. If you need to customize a field that is used in multiple fieldsets(e.g. firstname) enter an additional, unique fieldset id(e.g. billing-address-form). For street fields use the field_ids `street_0`, `street_1` and `street_2`.
+#### Mark Fields As Optional:
+Specify the fields you want to display an optional mark for here. If you need to customize a field that is used in multiple fieldsets (e.g. firstname is available in billing & shipping address) enter an additional, unique fieldset id (e.g. billing-address: 'form-fields', shipping-address: 'shipping-address-fieldset'). For street fields use the field_ids `street_0`, `street_1` and `street_2`.
+* path: checkout_placeholder/optional_marks/optional_fields
+* default: ''
 
 ## Compatible with
 

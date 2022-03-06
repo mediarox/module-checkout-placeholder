@@ -14,26 +14,4 @@
             </argument>
         </arguments>
     </type>
-    <type name="Checkout\Placeholder\Block\Onepage\PlaceholderProcessor">
-        <arguments>
-            <!-- List of "search criteria" that refer to field lists. -->
-            <argument name="fieldLists" xsi:type="array">
-                <item name="shippingAddress" xsi:type="array">
-                    <item name="searchKey" xsi:type="string">shipping-address-fieldset</item>
-                    <item name="path" xsi:type="string">/children</item>
-                </item>
-                <item name="billingAddress" xsi:type="array">
-                    <item name="searchKey" xsi:type="string">form-fields</item>
-                    <item name="path" xsi:type="string">/children</item>
-                </item>
-            </argument>
-            <!-- List of search criteria that refer to specific fields. -->
-            <argument name="fields" xsi:type="array">
-                <item name="comment" xsi:type="array">
-                    <item name="searchKey" xsi:type="string">additional</item>
-                    <item name="path" xsi:type="string">/children/comment</item>
-                </item>
-            </argument>
-        </arguments>
-    </type>
 </config>

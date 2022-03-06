@@ -9,6 +9,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <module name="Checkout_Placeholder" setup_version="0.0.1">
         <sequence>
+            <module name="Amasty_Checkout"/>
             <module name="Magento_Framework"/>
             <module name="Magento_Checkout"/>
         </sequence>

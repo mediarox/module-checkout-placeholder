@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Mediarox_CheckoutPlaceholder
+ * @copyright Copyright 2022(c) mediarox UG (haftungsbeschraenkt) (http://www.mediarox.de)
+ * @author Marcus Bernt <mbernt@mediarox.de>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="mediarox">
+            <label>Mediarox</label>
+        </tab>
+        <section id="checkout_placeholder" showInDefault="1" showInWebsite="1" showInStore="1">
+            <tab>mediarox</tab>
+            <resource>Checkout_Placeholder::config</resource>
+            <label>Checkout Placeholder</label>
+            <group id="general" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                <label>General</label>
+                <field id="enable" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="select">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                <field id="hide_labels" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="select">
+                    <label>Hide Labels</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="checkout_placeholder/general/enable">1</field>
+                    </depends>
+                </field>
+                <field id="enable_required_mark" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="select">
+                    <label>Show Required Mark</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="checkout_placeholder/general/enable">1</field>
+                    </depends>
+                </field>
+                <field id="custom_required_mark" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="text">
+                    <label>Custom Required Mark</label>
+                    <depends>
+                        <field id="checkout_placeholder/general/enable">1</field>
+                        <field id="enable_required_mark">1</field>
+                    </depends>
+                </field>
+                <field id="specific_fields" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>Specific Fields</label>
+                    <frontend_model>Checkout\Placeholder\Block\Adminhtml\Form\Field\SpecificFieldConfig</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <depends>
+                        <field id="checkout_placeholder/general/enable">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="optional_marks" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                <label>Optional Fields</label>
+                <depends>
+                    <field id="checkout_placeholder/general/enable">1</field>
+                </depends>
+                <field id="enable" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="select">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                <field id="custom_optional_mark" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="text">
+                    <label>Optional Mark</label>
+                    <depends>
+                        <field id="checkout_placeholder/optional_marks/enable">1</field>
+                    </depends>
+                </field>
+                <field id="optional_fields" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>Mark Fields As Optional</label>
+                    <frontend_model>Checkout\Placeholder\Block\Adminhtml\Form\Field\OptionalFieldConfig</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <depends>
+                        <field id="checkout_placeholder/optional_marks/enable">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

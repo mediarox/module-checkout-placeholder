@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Checkout_Placeholder
+ * @copyright Copyright 2022(c) mediarox UG (haftungsbeschraenkt) (http://www.mediarox.de)
+ * @author Marcus Bernt <mbernt@mediarox.de>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <checkout_placeholder>
+            <general>
+                <enable>0</enable>
+                <hide_labels>0</hide_labels>
+                <enable_required_mark>1</enable_required_mark>
+                <custom_required_mark>*</custom_required_mark>
+            </general>
+        </checkout_placeholder>
+    </default>
+</config>

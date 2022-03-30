@@ -53,7 +53,8 @@ class PlaceholderProcessor implements LayoutProcessorInterface, PlaceholderInter
         if ($label) {
             $label = ($label instanceof Phrase) ? (string)__($label) : $label;
             $customMark = $this->getRequiredEntryMark($node) ?: $this->getOptionalEntryMark($config);
-            $node[Config::COLUMN_KEY_PLACEHOLDER] = $label . ' ' . $customMark;
+            $placeholder = $label . ' ' . $customMark;
+            $node['config'][Config::COLUMN_KEY_PLACEHOLDER] = trim($placeholder);
         }
     }
 
